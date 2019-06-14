@@ -59,17 +59,38 @@ namespace Tests
         #endregion
 
         #region TheDepleteMethod
-        public class TheDepleteMethod
+        public class TheDepleteMethod :
         {
-            [Test]
-            public void _0_Sets_Image_With_1_Fill_To_1_Fill()
-            {
-                var image = new GameObject().AddComponent<Image>();
-                var heart = new Heart(image);
-                heart.Deplete(0);
+            private Image m_image;
+            private Heart m_heart;
 
-                Assert.AreEqual(1, image.fillAmount);
+            [SetUp]
+            public void BeforeEveryTest()
+            {
+                m_image = new GameObject().AddComponent<Image>();
+                m_heart = new Heart(m_image);
             }
+
+            [Test]
+            public void _0_Sets_Image_With_100_Percent_Fill_To_100_Percent_Fill()
+            {
+                m_image.fillAmount = 1;
+                
+                m_heart.Deplete(0);
+
+                Assert.AreEqual(1, m_image.fillAmount);
+            }
+
+            [Test]
+            public void _1_Sets_Image_With_100_Percent_Fill_To_75_Percent_Fill()
+            {
+                m_image.fillAmount = 1;
+
+                m_heart.Deplete(1);
+
+                Assert.AreEqual(0.75f, m_image.fillAmount);
+            }
+
 
         }
         #endregion
@@ -87,13 +108,13 @@ namespace Tests
 
         public void Replenish(int numberOfHeartPieces)
         {
-            m_image.fillAmount += numberOfHeartPieces* FillPerHeartPercentage;
+            m_image.fillAmount += numberOfHeartPieces * FillPerHeartPercentage;
         }
 
         public void Deplete(int numberOfHeartPieces)
         {
 
-            throw new NotImplementedException();
+            m_image.fillAmount -= numberOfHeartPieces * FillPerHeartPercentage;
         }
     }    
 }
