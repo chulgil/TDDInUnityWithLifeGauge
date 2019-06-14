@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Editor
 {
-    public class HeartTests
+    public class HeartTests : MonoBehaviour
     {
 
         private Image m_image;
@@ -53,13 +53,7 @@ namespace Editor
                     m_heart.Replenish(1);
                     
                     Assert.AreEqual(0.5f, m_image.fillAmount);            
-            }
-
-            [Test]
-            public void _Throws_Exeption_For_Negative_Number_Of_Heart_Pieces()
-            {
-                Assert.Throws<ArgumentOutOfRangeException>(()=> m_heart.Deplete(-1));
-            }
+            }                  
 
         }
         #endregion
