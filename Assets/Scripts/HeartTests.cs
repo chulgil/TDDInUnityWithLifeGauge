@@ -11,20 +11,20 @@ namespace Tests
     public class HeartTests : MonoBehaviour
     {
 
-        #region TheReplenishMethod
-        public class TheReplenishMethod
+        private Image m_image;
+        private Heart m_heart;
+
+        [SetUp]
+        public void BeforeEveryTest()
         {
-            private Image m_image;
-            private Heart m_heart;
+            m_image = new GameObject().AddComponent<Image>();
+            m_heart = new Heart(m_image);
+        }
 
-            [SetUp]
-            public void BeforeEveryTest()
-            {
-                m_image = new GameObject().AddComponent<Image>();
-                m_heart = new Heart(m_image);
-            }
-        
 
+        #region TheReplenishMethod
+        public class TheReplenishMethod : HeartTests
+        {
             [Test]
             public void _0_Sets_Image_With_0_Fill_To_0_Fill()
             {
@@ -59,18 +59,8 @@ namespace Tests
         #endregion
 
         #region TheDepleteMethod
-        public class TheDepleteMethod :
+        public class TheDepleteMethod : HeartTests
         {
-            private Image m_image;
-            private Heart m_heart;
-
-            [SetUp]
-            public void BeforeEveryTest()
-            {
-                m_image = new GameObject().AddComponent<Image>();
-                m_heart = new Heart(m_image);
-            }
-
             [Test]
             public void _0_Sets_Image_With_100_Percent_Fill_To_100_Percent_Fill()
             {
