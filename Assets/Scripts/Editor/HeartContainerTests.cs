@@ -5,6 +5,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
+using Editor.Infrastructure; 
 
 namespace Editor
 {
@@ -47,7 +48,7 @@ namespace Editor
             [SetUp]
             public void BeforeEveryTest()
             {
-                Target = new GameObject().AddComponent<Image>();
+                Target = An.Image();
             }
 
             [Test]
@@ -91,10 +92,8 @@ namespace Editor
             [Test]
             public void _Hearts_Are_Replenished_In_Order()
             {
-                var image = new GameObject().AddComponent<Image>();
-                image.fillAmount = 0;
                 var heartContainer = new HeartContainer(
-                    new List<Heart> {new Heart(image), new Heart(Target)});
+                    new List<Heart> { A.Heart(), A.Heart().With(Target) });
                 heartContainer.Replenish(1);
 
                 Assert.AreEqual(0, Target.fillAmount);
