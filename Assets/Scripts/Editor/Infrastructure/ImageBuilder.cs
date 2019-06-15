@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Editor.Infrastructure
 {
-    public class ImageBuilder : MonoBehaviour
+    public class ImageBuilder : TestDataBuilder<Image>
     {
         private int m_fillAmount;
 
@@ -25,16 +25,11 @@ namespace Editor.Infrastructure
             return this;
         }
 
-        public Image Build()
+        public override Image Build()
         {
             var image = new GameObject().AddComponent<Image>();
             image.fillAmount = m_fillAmount;
             return image;
-        }
-
-        public static implicit operator Image(ImageBuilder imageBuilder)
-        {
-            return imageBuilder.Build();
         }
     
     }    
