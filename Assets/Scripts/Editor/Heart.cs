@@ -13,6 +13,11 @@ namespace Editor
             m_image = image;
         }
 
+        public int CurrentNumberOfHeartPieces 
+        {
+            get { return (int) (m_image.fillAmount * 4); }
+        }
+
         public void Replenish(int numberOfHeartPieces)
         {
             if (numberOfHeartPieces < 0) throw new ArgumentOutOfRangeException("numberOfHeartPieces must be positive", "numberofHeartPices");

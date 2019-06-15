@@ -11,8 +11,8 @@ namespace Editor
     public class HeartTests : MonoBehaviour
     {
 
-        private Image m_image;
-        private Heart m_heart;
+        protected Image m_image;
+        protected Heart m_heart;
 
         [SetUp]
         public void BeforeEveryTest()
@@ -53,7 +53,13 @@ namespace Editor
                     m_heart.Replenish(1);
                     
                     Assert.AreEqual(0.5f, m_image.fillAmount);            
-            }                  
+            }
+
+            [Test]
+            public void _Throws_Exeption_For_Negative_Number_Of_Heart_Pieces()
+            {
+                Assert.Throws<ArgumentOutOfRangeException>(()=> m_heart.Replenish(-1));
+            }
 
         }
         #endregion

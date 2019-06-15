@@ -10,8 +10,37 @@ namespace Editor
 {
     public class HeartContainerTests : MonoBehaviour
     {
+        public class TheCurrentNumberOfHeartPiecesProperty : HeartTests
+        {
+            [Test]
+            public void _0_Image_Fill_Is_0_Heart_Pieces()
+            {
+                m_image.fillAmount = 0;
+
+                Assert.AreEqual(0, m_heart.CurrentNumberOfHeartPieces);
+
+            }
+
+            [Test]
+            public void _25_Percent_Image_Fill_Is_1_Heart_Piece()
+            {
+                m_image.fillAmount = 0.25f;
+
+                Assert.AreEqual(1, m_heart.CurrentNumberOfHeartPieces);
+            }
+
+            [Test]
+            public void _75_Percent_Image_Fill_Is_3_Heart_Piece()
+            {
+                m_image.fillAmount = 0.75f;
+
+                Assert.AreEqual(3, m_heart.CurrentNumberOfHeartPieces);
+            }            
+
+        }
+
         #region TestReplenishMethod
-        public class TestReplenishMethod
+        public class TestReplenishMethod : HeartTests
         {
             protected Image Target;
 
@@ -45,6 +74,7 @@ namespace Editor
                 Assert.AreEqual(0.25f, Target.fillAmount);
             }
 
+
             [Test]
             public void _Empty_Hearts_Are_Replenished()
             {
@@ -59,6 +89,18 @@ namespace Editor
             }
 
             [Test]
+            public void _Hearts_Are_Replenished_In_Order()
+            {
+                var image = new GameObject().AddComponent<Image>();
+                image.fillAmount = 0;
+                var heartContainer = new HeartContainer(
+                    new List<Heart> {new Heart(image), new Heart(Target)});
+                heartContainer.Replenish(1);
+
+                Assert.AreEqual(0, Target.fillAmount);
+            }
+
+            [Test]
             public void _Hearts_Are_Replenished_One_At_A_Time()
             {
                 Target.fillAmount = 0;
@@ -66,7 +108,7 @@ namespace Editor
                 image.fillAmount = 0;
                 var heartContainer = new HeartContainer(
                     new List<Heart> {new Heart(image), new Heart(Target)});
-                heartContainer.Replenish(1);
+                heartContainer.Replenish(0);
 
                 Assert.AreEqual(0, Target.fillAmount);
             }
@@ -79,8 +121,14 @@ namespace Editor
 
                 public void Replenish(int numberOfHeartPieces)
                 {
+                    var numberOfHeartPiecesRemaining = numberOfHeartPieces;
                     foreach (var heart in m_hearts)
+                    {
+                        numberOfHeartPiecesRemaining -= (4 - heart.CurrentNumberOfHeartPieces);
                         heart.Replenish(numberOfHeartPieces);
+                        if (numberOfHeartPiecesRemaining <= 0) break;
+                    }
+                        
                 }
             }
 
