@@ -7,9 +7,9 @@ namespace Editor.Infrastructure
 {
     public class ImageBuilder : TestDataBuilder<Image>
     {
-        private int m_fillAmount;
+        private float m_fillAmount;
 
-        public ImageBuilder(int fillAmount)
+        public ImageBuilder(float fillAmount)
         {
             m_fillAmount = fillAmount;
         }
@@ -19,19 +19,21 @@ namespace Editor.Infrastructure
 
         }
 
-        public ImageBuilder WithFillAmount(int fillAmount)
+        public ImageBuilder WithFillAmount(float fillAmount)
         {
             m_fillAmount = fillAmount;
             return this;
         }
 
-        public override Image Build()
+        public override Image Build
         {
-            var image = new GameObject().AddComponent<Image>();
-            image.fillAmount = m_fillAmount;
-            return image;
+            get
+            {
+                var image = new GameObject().AddComponent<Image>();
+                image.fillAmount = m_fillAmount;
+                return image;
+            }
         }
-    
     }    
 }
 

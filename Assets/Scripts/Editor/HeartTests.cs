@@ -18,9 +18,28 @@ namespace Editor
             m_heart = new Heart(m_image);
         }
 
+        public class TheEmptyHeartPiecesProperty : HeartTests
+        {
+            [Test]
+            public void _100_Percent_Image_Fill_Is_0_Empty_Heart_Pieces()
+            {
+                m_image.fillAmount = 1;
+
+                Assert.AreEqual(0, m_heart.EmptyHeartPieces);
+            }
+
+            [Test]
+            public void _75_Percent_Image_Fill_Is_1_Empty_Heart_Piece()
+            {
+                m_image.fillAmount = 0.75f;
+
+                Assert.AreEqual(1, m_heart.EmptyHeartPieces);
+            }
+        }
+
 
         #region TheReplenishMethod
-        public class TheReplenishMethod : HeartTests
+        public class TheFilledHeartPicecesProperty : HeartTests
         {
             [Test]
             public void _0_Sets_Image_With_0_Fill_To_0_Fill()

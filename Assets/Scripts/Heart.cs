@@ -3,7 +3,8 @@ using UnityEngine.UI;
 
 public class Heart
 {
-    private const float FillPerHeartPercentage = 0.25f;
+    public static readonly int HeartPiecesPerHeart = 4;
+    private const float FILL_PER_HEART_PIECE = 0.25f;
     private readonly Image m_image;
 
     public Heart(Image image)
@@ -11,20 +12,29 @@ public class Heart
         m_image = image;
     }
 
-    public int CurrentNumberOfHeartPieces 
+    public int FilledHeartPieces 
     {
-        get { return (int) (m_image.fillAmount * 4); }
+        get { return CalculateFilledHeartPieces(); }
     }
 
+    public int EmptyHeartPieces
+    {
+        get { return HeartPiecesPerHeart - CalculateFilledHeartPieces(); }
+    }
+
+    private int CalculateFilledHeartPieces()
+    {
+        return (int) (m_image.fillAmount * HeartPiecesPerHeart);
+    }
     public void Replenish(int numberOfHeartPieces)
     {
         if (numberOfHeartPieces < 0) throw new ArgumentOutOfRangeException("numberOfHeartPieces must be positive", "numberofHeartPices");
-        m_image.fillAmount += numberOfHeartPieces * FillPerHeartPercentage;
+        m_image.fillAmount += numberOfHeartPieces * FILL_PER_HEART_PIECE;
     }
 
     public void Deplete(int numberOfHeartPieces)
     {
         if (numberOfHeartPieces < 0) throw new ArgumentOutOfRangeException("numberOfHeartPieces must be positive", "numberofHeartPices");
-        m_image.fillAmount -= numberOfHeartPieces * FillPerHeartPercentage;
+        m_image.fillAmount -= numberOfHeartPieces * FILL_PER_HEART_PIECE;
     }
 }    

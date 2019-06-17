@@ -25,11 +25,7 @@ namespace Editor.Infrastructure
             return this;
         }
 
-        public override Heart Build()
-        {
-            return new Heart(m_image);
-        }
+        public override Heart Build => new Heart(m_image);
 
     }    
 }
-
