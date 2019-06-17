@@ -67,19 +67,82 @@ namespace Editor
 
                 Assert.AreEqual(0, player.CurrentHealth);
             }
+
+            [Test]
+            public void OverKill_Is_Ignored()
+            {
+                var player = new Player(1);
+
+                player.Damage(2);
+
+                Assert.AreEqual(0, player.CurrentHealth);
+            }
         }
 
-        [Test]
-        public void OverKill_Is_Ignored()
+        public class TheHealedEvent
         {
-            var player = new Player(1);
+            [Test]
+            public void Raises_Event_On_Heal()
+            {
+                var amount = -1;
+                var player = new Player(1);
+                player.Healed += (SingleThreadedAttribute, args) =>
+                {
+                    amount = args.Amount;
+                };
 
-            player.Damage(2);
+                player.Heal(0);
 
-            Assert.AreEqual(0, player.CurrentHealth);
+                Assert.AreEqual(0, amount);
+            }
+
+            [Test]
+            public void Overhealing_Is_Ignored()
+            {
+                var amount = -1;
+                var player = new Player(1, 1);
+                player.Healed += (sender, args) =>
+                {
+                    amount = args.Amount;
+                };
+
+                player.Heal(1);
+
+                Assert.AreEqual(0, amount);
+            }
         }
-    
+
+        public class TheDamagedEvent
+        {
+            [Test]
+            public void Raises_Event_On_Damage()
+            {
+                var amount = -1;
+                var player = new Player(1);
+                player.Damaged += (sender, args) =>
+                {
+                    amount = args.Amount;
+                };
+
+                player.Damage(0);
+
+                Assert.AreEqual(0, amount);
+            }
+
+            [Test]
+            public void Overkill_Is_Ignored()
+            {
+                var amount = -1;
+                var player = new Player(0);
+                player.Damaged += (sender, args) =>
+                {
+                    amount = args.Amount;
+                };
+
+                player.Damage(1);
+
+                Assert.AreEqual(0, amount);
+            }            
+        }
     }
-
-
 }
